@@ -2,7 +2,9 @@
 Benjamin Wu
 CISC 3150 - HW3
 
-Comments: 8 Queens Puzzle. Recursively solves the 8-queens problem.
+Comments: 8 Queens Puzzle. Recursively solves the 8-queens problem. difficulties in figuring out the array problems for contraints of checking queens.
+Instead of using a 2-Dimensional array from the start, I used One-Dimensional. 
+Checking for The same column and both same diagonals for any possible queen taking each other using onSameLine method.
 
 */
 
@@ -15,5 +17,47 @@ public class queens
 		System.out.println("Put 'n' number of queens on n-chessboard for n-queens puzzle.");
 		Scanner scan = new Scanner(System.in);
 		int x = scan.nextInt();
+		start(x);
 		}
+
+	public static void start(int x)
+		{
+		int[] array = new int[x];
+		run(array, 0); //call the runThrough method to begin from main.
+		}
+
+	public static void run(int[] array) //method for going through backtracking for the array.
+		{
+		int n = 0, N = array.length;
+			for (int i = 0; i < N; i++)
+				{
+				array[n] = i;
+				if (onSameLine(array, n))
+					run(array); 
+					/*recursive call for itself, allows it to create all the possible solutions to the N-queens puzzle. */
+				}
+		}
+
+	public static boolean onSameLine(int[] array, int n) 
+		/*check if any queens are able to attack each other, constraints. The other backtracking method. 
+		This also removes queens where ever needed to solve the puzzle. */
+		{
+		for (int i = 0; i < n; i++)
+			{
+			if (array[i] == array[n])
+				return false;
+			//checks the same column
+			if ((array[i] - array[n]) == (n - i))
+				return false;
+			//checks the diagonal
+			if ((array[n] - array[i]) == (n - i))
+				return false;
+			//checks the other diagonal
+			}
+		return true;
+		}
+	public static void displayBoard(int[] q)
+		{
+		}
+
 }
