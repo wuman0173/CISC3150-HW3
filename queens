@@ -17,7 +17,12 @@ public class queens
 		System.out.println("Put 'n' number of queens on n-chessboard for n-queens puzzle.");
 		Scanner scan = new Scanner(System.in);
 		int x = scan.nextInt();
-		start(x);
+		if (x == 2 || x == 3)
+			{
+			System.out.println("No such solution for when N = " + x);
+			}
+		else
+			start(x);
 		}
 
 	public static void start(int x)
