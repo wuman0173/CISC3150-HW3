@@ -1,1 +1,19 @@
+/*
+Benjamin Wu
+CISC 3150 - HW3
 
+Comments: 8 Queens Puzzle. Recursively solves the 8-queens problem.
+
+*/
+
+import java.util.*;
+
+public class queens 
+{
+	public static void main(String[] args)
+		{
+		System.out.println("Put 'n' number of queens on n-chessboard for n-queens puzzle.");
+		Scanner scan = new Scanner(System.in);
+		int x = scan.nextInt();
+		}
+}
