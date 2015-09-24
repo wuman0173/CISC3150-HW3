@@ -3,8 +3,9 @@ Benjamin Wu
 CISC 3150 - HW3
 
 Comments: 8 Queens Puzzle. Recursively solves the 8-queens problem. difficulties in figuring out the array problems for contraints of checking queens.
-Instead of using a 2-Dimensional array from the start, I used One-Dimensional. 
-Checking for The same column and both same diagonals for any possible queen taking each other using onSameLine method.
+Instead of using a 2-Dimensional array from the start, I used One-Dimensional. I then used the onSameLine method to backtrack, the backtracking is a little difficult...
+as it checks all the points (except the same row) around it to see if there are integers placed, if it is, it goes back changing it.
+Checking for The same column and both same diagonals for any possible queen taking each other using onSameLine method. while to get the displayBoard method done....
 
 */
 
@@ -18,51 +19,72 @@ public class queens
 		Scanner scan = new Scanner(System.in);
 		int x = scan.nextInt();
 		if (x == 2 || x == 3)
-			{
 			System.out.println("No such solution for when N = " + x);
-			}
 		else
-			start(x);
+			startWork(x);
 		}
 
-	public static void start(int x)
+	public static void startWork(int x)
 		{
-		int[] array = new int[x];
-		run(array, 0); //call the runThrough method to begin from main.
+		int[] array = new int[x]; //used int array instead of boolean. for reasons... it sets the queen at its array[n]th place.
+		runThrough(array, 0); //need 2 variables for recursive reasons. that 0 will increase towards N-board/queens.
 		}
 
-	public static void run(int[] array) //method for going through backtracking for the array.
+	public static void runThrough(int[] array, int numb) //method for going through backtracking for the array.
 		{
-		int n = 0, N = array.length;
+		int N = array.length;
+		if (numb == N) //This allows to print multiple boards, as long as it is true
+			displayBoard(array);
+		else
+			{
 			for (int i = 0; i < N; i++)
 				{
-				array[n] = i;
-				if (onSameLine(array, n))
-					run(array); 
-					/*recursive call for itself, allows it to create all the possible solutions to the N-queens puzzle. */
+				array[numb] = i;
+				if (onSameLine(array, numb)) 
+					runThrough(array, numb+1); 
+					/*recursive call for itself, adding one allows it to create all the possible solutions to the N-queens puzzle. */
 				}
+			}
 		}
 
-	public static boolean onSameLine(int[] array, int n) 
-		/*check if any queens are able to attack each other, constraints. The other backtracking method. 
-		This also removes queens where ever needed to solve the puzzle. */
+	public static boolean onSameLine(int[] array, int numb)
+		//This checks around the point in which numb is brought in from, up and down, and the four diagonals.
+		//It gets recursively called in many times along with runThrough for checking.
 		{
-		for (int i = 0; i < n; i++)
+		int diagonal = 0; //needed to check if diagonals are the same
+		for (int i = 0; i < numb; i++)
 			{
-			if (array[i] == array[n])
+			diagonal = numb - i;
+			if (array[i] == array[numb])
 				return false;
 			//checks the same column
-			if ((array[i] - array[n]) == (n - i))
+			if ((array[i] - array[numb]) == diagonal)
 				return false;
-			//checks the diagonal
-			if ((array[n] - array[i]) == (n - i))
+			//Took some time to find these two diagonal checks. randomly changing values and formulas...
+			if ((array[numb] - array[i]) == diagonal)
 				return false;
 			//checks the other diagonal
 			}
 		return true;
 		}
-	public static void displayBoard(int[] q)
-		{
-		}
 
+	public static void displayBoard(int[] array)
+		//prints out whereever the integer array has the correct integer number in the entire array. Else it prints *. 
+		{
+		int N = array.length;
+		for (int i = 0; i < N; i++)
+			{
+			for (int j = 0; j < N; j++)
+				{
+				if (array[i] == j) //So when the entire array is set to 2, it checks if it is the same and puts Q.
+					System.out.print("Q ");
+				else
+					System.out.print("* ");
+				}
+			System.out.println();
+			}  
+		System.out.println();
+		}
 }
+
+
